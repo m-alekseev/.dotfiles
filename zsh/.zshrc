@@ -7,22 +7,28 @@ fi
 
 plugins=(git extract vi-mode tmux fzf)
 
+[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 case "$(uname)" in
   Darwin) source "$HOME/.dotfiles/zsh/macos-config.zsh" ;;
   Linux)  source /usr/share/cachyos-zsh-config/cachyos-config.zsh ;;
 esac
 
-[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+eval "$(pyenv init - --no-rehash zsh)"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+path+=($NVM_DIR/versions/node/*/bin(N/On[1]))
+nvm() {
+  unfunction nvm
+  local f
+  for f in "$NVM_DIR/nvm.sh" /opt/homebrew/opt/nvm/nvm.sh; do
+    [[ -s $f ]] && { . "$f"; break }
+  done
+  [[ -s $NVM_DIR/bash_completion ]] && . "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
 
 alias gis="git status"
 alias vim="nvim"
@@ -34,7 +40,7 @@ alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1
 alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
 
 # opencode
-export PATH=/home/user/.opencode/bin:$PATH
+[[ -d /home/user/.opencode/bin ]] && export PATH=/home/user/.opencode/bin:$PATH
 alias opencode='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command opencode'
 
 # Let node/require() find globally npm-installed packages from any directory
