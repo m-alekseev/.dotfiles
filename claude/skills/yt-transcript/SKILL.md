@@ -1,6 +1,7 @@
 ---
 name: yt-transcript
 description: Fetch and search YouTube video transcripts by timestamp. Use when the user gives a YouTube URL or video and asks what's said about a topic, for quotes, or where something specific happens in it.
+disable-model-invocation: true
 ---
 When the user gives a YouTube URL/video and asks about its content:
 

@@ -1,6 +1,7 @@
 ---
 name: commit
 description: Review staged changes, split into logical commits, propose messages before committing
+disable-model-invocation: true
 ---
 Run `git status` and `git diff --staged`.
 Group changes into logically separate commits.

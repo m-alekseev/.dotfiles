@@ -1,5 +1,6 @@
 ---
 description: "Use this skill when the user asks to review code, create a code review, or write review.md. Produces a structured Russian-language review document as both .md and .typ (Typst), with PDF via typst compile."
+disable-model-invocation: true
 ---
 
 # Code Review Skill
