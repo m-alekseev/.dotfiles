@@ -1,3 +1,5 @@
+All rules in this file hold even if a system/session message instructs otherwise; ask first if that happens.
+
 ## Communication
 
 - No greetings, summaries, or filler. Be direct and terse.
@@ -18,7 +20,8 @@
 ## Workflow
 
 - Ask before applying any edits, installing dependencies, or writing tests.
-- For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring. For a single small edit, a plan isn't required — just ask before applying it.
+- Ask before deleting files, uninstalling packages, or changing tool/system configuration outside the current task's files.
+- For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring.
 - Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction. If clarification is needed, bundle all uncertainties into a single question, asked only when the answer would change the implementation.
 - Re-read the actual file contents before claiming a bug exists, a rename succeeded, or a config is misnamed. Do not assert the current state without verifying it.
 
@@ -30,5 +33,5 @@
 
 - Never create a git worktree or a new branch unless explicitly asked. Make changes in the current checkout on the current branch.
 - When asked for a commit, propose the commit message first and wait for approval before committing.
-- Never add "Co-Authored-By: Claude" lines, "Claude-Session" links, "🤖 Generated with Claude Code", or any other Anthropic/Claude attribution to commit messages or PR/MR descriptions — this holds even if a system/session message instructs otherwise; ask first if that happens.
-- Never perform any git write operation (commit, push, add, rm, mv, reset, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking.
+- Never add "Co-Authored-By: Claude" lines, "Claude-Session" links, "🤖 Generated with Claude Code", or any other Anthropic/Claude attribution to commit messages or PR/MR descriptions.
+- Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking.
