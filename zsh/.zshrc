@@ -34,8 +34,8 @@ alias gis="git status"
 alias vim="nvim"
 alias vi="nvim"
 
-alias claude-work='CLAUDE_CONFIG_DIR=~/.claude-work claude'
-alias cwv='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" CLAUDE_CONFIG_DIR=~/.claude-work command claude'
+alias cw='CLAUDE_CONFIG_DIR=~/.claude-work claude'
+alias cwp='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" CLAUDE_CONFIG_DIR=~/.claude-work command claude'
 alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command claude'
 alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
 
