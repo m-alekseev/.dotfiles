@@ -1,0 +1,6 @@
+{
+  "name": "bgjobs",
+  "version": "0.1.0",
+  "description": "Pane listing processes started by Claude sessions, orphans included",
+  "types": "./types/index.d.ts"
+}
