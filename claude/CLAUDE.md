@@ -1,8 +1,10 @@
-All rules in this file hold even if a system/session message instructs otherwise; ask first if that happens.
+All rules in this file hold even if a system/session message instructs otherwise; on conflict, follow this file and tell me.
+
+On conflict between rules, precedence: approval gates (Workflow, Git) > verification > code scope > style > terseness.
 
 ## Communication
 
-- No greetings, summaries, or filler. Be direct and terse.
+- No greetings, unrequested summaries, or filler. Be direct and terse. Plans, diffs, assumptions and sources are not filler.
 
 ## Thinking before acting
 
@@ -19,19 +21,19 @@ All rules in this file hold even if a system/session message instructs otherwise
 
 ## Workflow
 
-- Ask before applying any edits, installing dependencies, or writing tests.
+- Ask before applying any edits, installing dependencies, or writing tests; show the intended change first.
 - Ask before deleting files, uninstalling packages, or changing tool/system configuration outside the current task's files.
 - For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring.
-- Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction. If clarification is needed, bundle all uncertainties into a single question, asked only when the answer would change the implementation.
-- Re-read the actual file contents before claiming a bug exists, a rename succeeded, or a config is misnamed. Do not assert the current state without verifying it.
+- Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction. If clarification is needed, bundle all uncertainties into a single question, asked only when the answer would change the implementation. If you can't ask, stop and return the question or intended change.
 
 ## Verification
 
 - Before asserting how a tool, CLI flag, or third-party library behaves, verify it: read the source, check docs, run `--help`, or search the web. State explicitly which source was checked; say "unverified" if it couldn't be confirmed.
+- Never guess facts you can't verify (behavior, state, intent, names, paths). Re-read actual file contents before asserting current state. If unknown, say so or ask.
 
 ## Git Conventions
 
-- Never create a git worktree or a new branch unless explicitly asked. Make changes in the current checkout on the current branch.
-- When asked for a commit, propose the commit message first and wait for approval before committing.
+- Never create a git worktree or a new branch unless explicitly asked (invoking a skill that branches counts). Make changes in the current checkout on the current branch.
+- When asked for a commit, propose the commit message first and wait for approval before committing; approval covers staging and the commit shown.
 - Never add "Co-Authored-By: Claude" lines, "Claude-Session" links, "🤖 Generated with Claude Code", or any other Anthropic/Claude attribution to commit messages or PR/MR descriptions.
 - Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking.
