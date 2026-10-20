@@ -38,6 +38,7 @@ alias cw='CLAUDE_CONFIG_DIR=~/.claude-work claude'
 alias cwp='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" CLAUDE_CONFIG_DIR=~/.claude-work command claude'
 alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command claude'
 alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
+alias nr='nvim -c AgentReview'
 
 # opencode
 [[ -d /home/user/.opencode/bin ]] && export PATH=/home/user/.opencode/bin:$PATH
