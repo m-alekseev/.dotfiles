@@ -21,9 +21,8 @@ On conflict between rules, precedence: approval gates (Workflow, Git) > verifica
 
 ## Workflow
 
-- Ask before applying any edits, installing dependencies, or writing tests; show the intended change first.
+- Ask before applying any edits, installing dependencies, or writing tests; show the intended change first. For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring.
 - Ask before deleting files, uninstalling packages, or changing tool/system configuration outside the current task's files.
-- For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring.
 - Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction. If clarification is needed, bundle all uncertainties into a single question, asked only when the answer would change the implementation. If you can't ask, stop and return the question or intended change.
 
 ## Verification
@@ -34,6 +33,4 @@ On conflict between rules, precedence: approval gates (Workflow, Git) > verifica
 ## Git Conventions
 
 - Never create a git worktree or a new branch unless explicitly asked (invoking a skill that branches counts). Make changes in the current checkout on the current branch.
-- When asked for a commit, propose the commit message first and wait for approval before committing; approval covers staging and the commit shown.
-- Never add "Co-Authored-By: Claude" lines, "Claude-Session" links, "🤖 Generated with Claude Code", or any other Anthropic/Claude attribution to commit messages or PR/MR descriptions.
-- Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking.
+- Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval; approval covers staging and the commit shown.
