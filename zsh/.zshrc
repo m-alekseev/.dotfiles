@@ -38,6 +38,7 @@ alias cw='CLAUDE_CONFIG_DIR=~/.claude-work claude'
 alias cwp='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" CLAUDE_CONFIG_DIR=~/.claude-work command claude'
 alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command claude'
 alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
+alias agy='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command agy'
 nr() { nvim -c "AgentReview $1"; }
 
 # opencode
@@ -54,3 +55,7 @@ fpath=(/Users/user/.docker/completions $fpath)
 autoload -Uz compinit
 (( ${+_comps[docker]} )) || compinit
 # End of Docker CLI completions
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/user/.local/bin:$PATH"
