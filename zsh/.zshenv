@@ -6,4 +6,4 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# MOONSHOT_API_KEY set manually, not tracked here
+# export MOONSHOT_API_KEY set manually, not tracked here
