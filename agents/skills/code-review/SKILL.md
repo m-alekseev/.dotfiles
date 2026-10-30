@@ -1,4 +1,5 @@
 ---
+name: code-review
 description: "Use this skill when the user asks to review code, create a code review, or write review.md. Produces a structured Russian-language review document as both .md and .typ (Typst), with PDF via typst compile."
 disable-model-invocation: true
 ---
@@ -125,7 +126,7 @@ If a category has no findings, omit the section entirely.
 
 ## Producing the Typst file
 
-**Do NOT include this section in `review.md`** — it is instruction for Claude only.
+**Do NOT include this section in `review.md`** — it is instruction for the assistant only.
 
 After writing `review.md`, always also write `<same-name>.typ`. The Typst file is the canonical source for PDF export.
 
@@ -204,7 +205,7 @@ Bold `[*Устранено*]` for fixed items; plain `[Не исправлено
 
 ## Producing a PDF
 
-**Do NOT include this section in `review.md`** — these instructions are for Claude only.
+**Do NOT include this section in `review.md`** — these instructions are for the assistant only.
 
 If the user asks for a PDF, do both steps in order:
 

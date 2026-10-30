@@ -20,9 +20,11 @@ When the user gives a YouTube URL/video and asks about its content:
        then `UV_BIN="$UV_DIR/bin/uv"`.
    `uv` is a standalone binary; it downloads a matching Python itself, so no system Python is required.
 
+Resolve `SKILL_DIR` to the absolute directory containing this loaded `SKILL.md` (follow symlinks). Use that directory for the scripts below; do not assume the current working directory is the skill directory.
+
 1. Fetch the transcript (skip if `$TMPDIR/yt-transcripts/<video_id>.txt` already exists):
    ```
-   "$UV_BIN" run ~/.claude/skills/yt-transcript/scripts/fetch_transcript.py <url_or_video_id>
+   "$UV_BIN" run "$SKILL_DIR/scripts/fetch_transcript.py" <url_or_video_id>
    ```
    Writes `<video_id>.txt` into a `yt-transcripts` folder under the system temp directory as
    timestamped `HH:MM:SS  text` lines. Pulls auto-generated or manual English captions via
@@ -32,7 +34,7 @@ When the user gives a YouTube URL/video and asks about its content:
 
 2. Search it for the relevant topic:
    ```
-   "$UV_BIN" run ~/.claude/skills/yt-transcript/scripts/search_transcript.py <path_to_txt> "<regex>" -C 1
+   "$UV_BIN" run "$SKILL_DIR/scripts/search_transcript.py" <path_to_txt> "<regex>" -C 1
    ```
    Case-insensitive regex. `>` marks matched lines, `-C N` adds N lines of context,
    `--` separates non-contiguous match groups.

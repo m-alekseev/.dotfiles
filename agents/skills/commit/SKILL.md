@@ -3,7 +3,7 @@ name: commit
 description: Commit session-related files in one approval round; new branch from a base or current branch; optionally push and open an MR/PR
 disable-model-invocation: true
 ---
-Flags in $ARGUMENTS: `push`, `mr`, `here`, `base=<branch>`, `docs`. `mr` implies `push`.
+Flags supplied with the skill invocation (Claude exposes these as `$ARGUMENTS`): `push`, `mr`, `here`, `base=<branch>`, `docs`. `mr` implies `push`.
 
 1. Inspect (read-only): `git branch --show-current`, `git status -sb`, `git diff HEAD`, `git log -5 --format=%s`, `git remote -v`. Untracked files are listed but never included unless I say so.
 2. Pick defaults, asking only if ambiguous:
@@ -25,4 +25,4 @@ Flags in $ARGUMENTS: `push`, `mr`, `here`, `base=<branch>`, `docs`. `mr` implies
    - MR/PR: forge from the remote URL — gitlab → `glab mr create --target-branch <base> --title ... --description ... --yes`; github → `gh pr create --base <base> --title ... --body ...`. Report the URL.
 5. Only with the `docs` flag: check whether AGENTS.md/README need updates and report gaps only; make no edits.
 
-Never add Claude/Anthropic attribution to commits or MR/PR text. Never create a worktree.
+Never add assistant/provider attribution to commits or MR/PR text. Never create a worktree.
