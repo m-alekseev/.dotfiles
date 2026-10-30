@@ -39,6 +39,7 @@ alias cwp='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.d
 alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command claude'
 alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
 alias agy='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command agy'
+alias codex='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command codex'
 nr() { nvim -c "AgentReview $1"; }
 
 # opencode
