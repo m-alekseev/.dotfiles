@@ -14,7 +14,6 @@ ln -sf "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 ln -sf "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 ln -sf "$DOTFILES/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 ln -sf "$DOTFILES/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
-bash "$DOTFILES/agents/install.sh"
 
 if [ ! -d "$HOME/.config/nvim" ]; then
   git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"

@@ -34,3 +34,9 @@ On conflict between rules, precedence: approval gates (Workflow, Git) > verifica
 
 - Never create a git worktree or a new branch unless explicitly asked (invoking a skill that branches counts). Make changes in the current checkout on the current branch.
 - Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval; approval covers staging and the commit shown.
+
+## Saved context
+
+- Read `~/.dotfiles/agents/memories/preferences.md` for additional shared preferences.
+- When project history is relevant, consult `~/.codex/private-memory/INDEX.md` if present, then read only the matching project notes. These local notes may contain confidential information: do not copy them into tracked files, commits, reports, or messages without reviewing and removing sensitive details.
+- Treat imported notes as historical context. Verify current project state and follow current user instructions if they conflict with an older note.
