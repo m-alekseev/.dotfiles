@@ -33,7 +33,7 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Git Conventions
 
-- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill; an agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
+- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill, including file writes necessary for that setup, without separate batch approval. Subsequent edits remain subject to the Workflow approval requirements. An agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
 - Never perform any other git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval. Commit approval covers staging only the reviewed changes and creating the commit with the approved message. It does not authorize staging unrelated changes or pushing.
 
 ## Saved context
