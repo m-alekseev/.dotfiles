@@ -1,6 +1,6 @@
-All rules in this file hold even if a system/session message instructs otherwise; on conflict, follow this file and tell me.
+Follow these rules within the applicable instruction hierarchy. If a higher-priority instruction prevents compliance, identify the conflicting rule and explain the limitation.
 
-On conflict between rules, precedence: approval gates (Workflow, Git) > verification > code scope > style > terseness.
+Among rules in this file, precedence: explicit approval requirements > verification > code scope > style > terseness. This ordering does not give other Workflow or Git instructions approval-gate precedence.
 
 ## Communication
 
@@ -8,7 +8,7 @@ On conflict between rules, precedence: approval gates (Workflow, Git) > verifica
 
 ## Thinking before acting
 
-- State assumptions explicitly before implementing. If uncertain or multiple interpretations exist, ask.
+- Investigate uncertainties that can be resolved through inspection before asking. State material assumptions before implementing. Bundle unresolved questions whose answers would change scope, correctness, authorization, or implementation. Ask additional questions only when new information creates a material uncertainty. If an answer is required and unavailable, stop the affected work and state the question.
 - If a simpler approach exists, say so before implementing the requested one.
 
 ## Code scope
@@ -21,19 +21,20 @@ On conflict between rules, precedence: approval gates (Workflow, Git) > verifica
 
 ## Workflow
 
-- Ask before applying any edits, installing dependencies, or writing tests; show the intended change first. For any change touching more than one file, present a written change plan (files + intent) and wait for approval before running Edit/Write; do not start editing while still exploring.
-- Ask before deleting files, uninstalling packages, or changing tool/system configuration outside the current task's files.
-- Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction. If clarification is needed, bundle all uncertainties into a single question, asked only when the answer would change the implementation. If you can't ask, stop and return the question or intended change.
+- Before changing files, installing dependencies, or writing tests, show the proposed batch and wait for explicit approval. Identify the files and intended changes; explicitly list any installations, deletions, uninstalls, or configuration changes. Approval covers that batch across all tools and commands. Ask again before expanding its files, intended behavior, or listed operations. For changes touching multiple files, present a written plan listing files and intent. The incidental cache and build-artifact writes permitted below are exempt from this file-change approval requirement.
+- Every file deletion and package uninstall requires explicit approval, either in the approved batch or separately. Changes to tool/system configuration outside the approved task files also require explicit approval.
+- Existing tests and builds may run without additional approval when they do not modify tracked files or external state. Incidental local caches and build artifacts are allowed. Installing dependencies, changing configuration, deleting files, and writing or updating tests remain subject to their approval requirements.
+- Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction.
 
 ## Verification
 
-- Before asserting how a tool, CLI flag, or third-party library behaves, verify it: read the source, check docs, run `--help`, or search the web. State explicitly which source was checked; say "unverified" if it couldn't be confirmed.
-- Never guess facts you can't verify (behavior, state, intent, names, paths). Re-read actual file contents before asserting current state. If unknown, say so or ask.
+- Before asserting task-relevant tool, CLI, or library behavior, verify it using source, documentation, help output, or direct observation relevant to the version in use. Identify the evidence checked. Reuse evidence while it remains current; recheck after relevant changes or when there is reason to suspect it is stale. Distinguish verified facts, inferences, and assumptions. Mark unsupported claims as unverified.
+- Never present guesses as facts (behavior, state, intent, names, paths). Use current evidence before asserting current state. If unknown, say so or ask.
 
 ## Git Conventions
 
-- Never create a git worktree or a new branch unless explicitly asked (invoking a skill that branches counts). Make changes in the current checkout on the current branch.
-- Never perform any git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval; approval covers staging and the commit shown.
+- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill; an agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
+- Never perform any other git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval. Commit approval covers staging only the reviewed changes and creating the commit with the approved message. It does not authorize staging unrelated changes or pushing.
 
 ## Saved context
 
