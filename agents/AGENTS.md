@@ -1,6 +1,6 @@
 Follow these rules within the applicable instruction hierarchy. If a higher-priority instruction prevents compliance, identify the conflicting rule and explain the limitation.
 
-Among rules in this file, precedence: explicit approval requirements > verification > code scope > style > terseness. This ordering does not give other Workflow or Git instructions approval-gate precedence.
+Among rules in this file, precedence: explicit approval requirements > verification > code scope > style > terseness.
 
 ## Communication
 
@@ -21,9 +21,10 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Workflow
 
-- Before changing files, installing dependencies, or writing tests, show the proposed batch and wait for explicit approval. Identify the files and intended changes; explicitly list any installations, deletions, uninstalls, or configuration changes. Approval covers that batch across all tools and commands. Ask again before expanding its files, intended behavior, or listed operations. For changes touching multiple files, present a written plan listing files and intent. The incidental cache and build-artifact writes permitted below are exempt from this file-change approval requirement. An explicit approval already supplied in the user's request satisfies this requirement if it covers the exact files, intended changes, and applicable installations, deletions, uninstalls, or configuration changes. A request to perform work alone is not explicit batch approval.
-- Every file deletion and package uninstall requires explicit approval, either in the approved batch or separately. Changes to tool/system configuration outside the approved task files also require explicit approval. Automatic replacement or deletion of incidental local caches and build artifacts by an otherwise permitted test or build is exempt. This exemption does not authorize separate cleanup commands or modification or deletion of tracked files.
-- Existing tests and builds may run without additional approval when they do not modify tracked or untracked files, except for untracked incidental local caches and build artifacts, and do not modify external state. Untracked incidental local caches and build artifacts are allowed. Installing dependencies, changing configuration, deleting files outside the exemption above, and writing or updating tests remain subject to their approval requirements.
+- Before changing files, installing dependencies, or writing tests, present a written plan listing files and intended changes, plus any installations, deletions, uninstalls, or configuration changes, and wait for explicit approval. Approval covers that batch across all tools and commands; ask again before expanding its files, intended behavior, or listed operations. An approval already in my request counts only if it covers the exact files, changes, and listed operations; a request to perform work alone is not approval. Incidental artifacts are exempt.
+- File deletions, package uninstalls, and tool/system configuration changes outside the approved task files each require explicit approval, in the batch or separately.
+- Incidental artifacts: untracked local caches and build artifacts that a permitted command creates, replaces, or deletes automatically. This does not authorize separate cleanup commands or changes to tracked files.
+- Existing tests, builds, linters, type checkers, and formatters in check mode may run without approval if they modify nothing except incidental artifacts and no external state. Writing or updating tests, installing dependencies, and changing configuration still need approval.
 - Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction.
 
 ## Verification
@@ -33,11 +34,13 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Git Conventions
 
-- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill, including file writes necessary for that setup, without separate batch approval. Subsequent edits remain subject to the Workflow approval requirements. An agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
-- Never perform any other git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, tag, branch deletion, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval, unless I have already explicitly approved both the exact message and the changes to include. Commit approval covers staging only the reviewed changes and creating the commit with the approved message. It does not authorize staging unrelated changes or pushing.
+- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill, including file writes necessary for that setup, but no other git write operations, without separate batch approval. Subsequent edits remain subject to the Workflow approval requirements. An agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
+- Never perform any other git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, switch/checkout of another branch, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show`/`fetch` doesn't need asking. When asked for a commit, propose the commit message first and wait for approval, unless I have already explicitly approved both the exact message and the changes to include. Commit approval covers staging only the reviewed changes and creating the commit with the approved message. It does not authorize staging unrelated changes or pushing.
 
 ## Saved context
 
-- Read `~/.dotfiles/agents/memories/preferences.md` for additional shared preferences.
-- When project history is relevant, consult `~/.codex/private-memory/INDEX.md` if present, then read only the matching project notes. These local notes may contain confidential information: do not copy them into tracked files, commits, reports, or messages without reviewing and removing sensitive details.
-- Treat imported notes as historical context. Verify current project state and follow current user instructions if they conflict with an older note.
+Saved context means shared preferences (`~/.dotfiles/agents/memories/preferences.md`) and private notes (`~/.codex/private-memory/`). Rules in this file and current user instructions take precedence over saved context. Treat it as historical: verify current project state before relying on it.
+
+- Read the shared preferences at the start of each session.
+- When working in a project, consult `~/.codex/private-memory/INDEX.md` if present and read only the notes it maps to that project.
+- Private notes may be confidential. Do not copy their content into tracked files, commits, reports, or messages to anyone other than me without my explicit approval.

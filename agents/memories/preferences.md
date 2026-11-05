@@ -7,4 +7,4 @@
 - Preserve existing virtual environments. Use a uniquely named temporary environment for review tooling and clean up only the environment created for that task.
 - When stopping a development server, identify its listener or tracked task. Do not kill every process with a connection to its port.
 
-Current user instructions take precedence over these historical preferences. Project-specific commands and historical project notes are not global defaults.
+Current user instructions take precedence over these shared preferences. Project-specific commands and historical project notes are not global defaults.
