@@ -34,23 +34,21 @@ alias gis="git status"
 alias vim="nvim"
 alias vi="nvim"
 
-function _proxied {
-  zmodload -F zsh/net/tcp b:ztcp
-  if ! ztcp localhost 12334 2>/dev/null; then
-    print -u2 "$1: proxy localhost:12334 is not reachable"
+_proxied() {
+  if ! nc -z -w 2 localhost 12334 >/dev/null 2>&1; then
+    printf '%s: proxy localhost:12334 is not reachable\n' "$1" >&2
     return 1
   fi
-  ztcp -c $REPLY
   local p="http://localhost:12334" np="localhost,127.0.0.1,.dev002.local"
   HTTPS_PROXY=$p HTTP_PROXY=$p ALL_PROXY=$p https_proxy=$p http_proxy=$p all_proxy=$p \
     NO_PROXY=$np no_proxy=$np command "$@"
 }
 
-function claude   { _proxied claude "$@" }
-function pi       { _proxied pi "$@" }
-function agy      { _proxied agy "$@" }
-function codex    { _proxied codex "$@" }
-function opencode { _proxied opencode "$@" }
+claude()   { _proxied claude "$@"; }
+pi()       { _proxied pi "$@"; }
+agy()      { _proxied agy "$@"; }
+codex()    { _proxied codex "$@"; }
+opencode() { _proxied opencode "$@"; }
 function cw       { CLAUDE_CONFIG_DIR=~/.claude-work command claude "$@" }
 function cwp      { CLAUDE_CONFIG_DIR=~/.claude-work _proxied claude "$@" }
 nr() { nvim -c "AgentReview $1"; }
