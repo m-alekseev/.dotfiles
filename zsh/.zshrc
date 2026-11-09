@@ -34,17 +34,29 @@ alias gis="git status"
 alias vim="nvim"
 alias vi="nvim"
 
-alias cw='CLAUDE_CONFIG_DIR=~/.claude-work claude'
-alias cwp='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" CLAUDE_CONFIG_DIR=~/.claude-work command claude'
-alias claude='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command claude'
-alias pi='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command pi'
-alias agy='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command agy'
-alias codex='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command codex'
+function _proxied {
+  zmodload -F zsh/net/tcp b:ztcp
+  if ! ztcp localhost 12334 2>/dev/null; then
+    print -u2 "$1: proxy localhost:12334 is not reachable"
+    return 1
+  fi
+  ztcp -c $REPLY
+  local p="http://localhost:12334" np="localhost,127.0.0.1,.dev002.local"
+  HTTPS_PROXY=$p HTTP_PROXY=$p ALL_PROXY=$p https_proxy=$p http_proxy=$p all_proxy=$p \
+    NO_PROXY=$np no_proxy=$np command "$@"
+}
+
+function claude   { _proxied claude "$@" }
+function pi       { _proxied pi "$@" }
+function agy      { _proxied agy "$@" }
+function codex    { _proxied codex "$@" }
+function opencode { _proxied opencode "$@" }
+function cw       { CLAUDE_CONFIG_DIR=~/.claude-work command claude "$@" }
+function cwp      { CLAUDE_CONFIG_DIR=~/.claude-work _proxied claude "$@" }
 nr() { nvim -c "AgentReview $1"; }
 
 # opencode
-[[ -d /home/user/.opencode/bin ]] && export PATH=/home/user/.opencode/bin:$PATH
-alias opencode='HTTPS_PROXY="http://localhost:12334" NO_PROXY="localhost,127.0.0.1,.dev002.local" command opencode'
+[[ -d $HOME/.opencode/bin ]] && export PATH=$HOME/.opencode/bin:$PATH
 
 # Let node/require() find globally npm-installed packages from any directory
 export NODE_PATH="$(npm root -g)"
