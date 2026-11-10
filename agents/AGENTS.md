@@ -1,6 +1,6 @@
 Follow these rules within the applicable instruction hierarchy. If a higher-priority instruction prevents compliance, identify the conflicting rule and explain the limitation.
 
-Among rules in this file, precedence: explicit approval requirements > verification > code scope > style > terseness.
+Among rules in this file, precedence: explicit approval requirements > verification > code scope > delegation > style > terseness.
 
 ## Communication
 
@@ -31,15 +31,16 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Delegation
 
-- Proactively spawn subagents when useful, without waiting for a per-task request. This is a standing request for delegation and authorizes task-related communication between the main agent and its subagents.
-- Use read-only subagents for substantial codebase exploration and research needed for planning. Delegate bounded implementation tasks only within an explicitly approved batch.
-- Keep simple tasks in the main agent. Give subagents clear scopes, avoid overlapping edits, and verify their findings before relying on them.
+- Proactively spawn subagents when useful, without waiting for a per-task request. This is a standing request for delegation and authorizes task-related communication between this agent and its own subagents.
+- Use subagents instructed not to write, with read-only tool restrictions where supported, for substantial codebase exploration and research needed for planning. Delegate bounded implementation tasks only within an explicitly approved batch.
+- Keep simple tasks in this agent rather than delegating them. Give subagents clear scopes, avoid overlapping edits, and verify their findings before relying on them.
 - All existing scope, verification, privacy, and approval requirements apply to subagents. Delegation grants no additional authority to change files, run git writes, or affect external state.
-- Delegation does not authorize sharing private-note content with subagents, including through inherited context; obtain explicit approval or omit that content.
+- Task-related exchanges of private-note content between this agent and its own subagents whose tools execute on the same machine, including through inherited context, are permitted (see Saved context). Sharing private-note content with any other agent or session, including other sessions on the same machine and subagents whose tools execute remotely, requires explicit approval. If a subagent's execution location cannot be verified, obtain explicit approval before sharing private-note content.
 - Select the model and reasoning effort explicitly for each subagent, using this precedence:
   - Planning, security analysis, complex review, or difficult reasoning: `gpt-6.1-sol`, `high`.
   - Otherwise, for exploration, use `gpt-6-luna`, `high` for bounded searches such as locating symbols, configuration, or usages; use `gpt-6.1-sol`, `medium` for tracing behavior across files or investigating a subsystem.
   - Default for all other tasks: `gpt-6.1-sol`, `medium`.
+- These model and reasoning-effort selections apply to Codex only. Other harnesses use their defaults. If a listed selection is unavailable, use the harness default for that setting and state the substitution once per session.
 - Classify the assigned subtask, not its downstream purpose. Research supporting planning follows exploration rules unless the subtask itself requires planning or difficult reasoning. Within exploration, behavior tracing or subsystem investigation takes precedence over bounded searches.
 
 ## Verification
@@ -49,13 +50,14 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Git Conventions
 
-- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill, including file writes necessary for that setup, but no other git write operations, without separate batch approval. Subsequent edits remain subject to the Workflow approval requirements. An agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
+- Never create a git worktree or a new branch unless explicitly asked. Explicit user invocation of a skill authorizes creating branches or worktrees required by that skill, including file writes necessary for that setup. Other git write operations still require separate batch approval. Subsequent edits remain subject to the Workflow approval requirements. An agent independently choosing a skill does not grant that authorization. Otherwise, make changes in the current checkout on the current branch.
 - Never perform any other git write operation (commit, push, add, rm, mv, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, switch/checkout of another branch, checkout that discards changes, etc.) without my explicit approval first — no silent writes or deletions; read-only inspection like `status`/`diff`/`log`/`show` doesn't need asking. Fetching without approval is permitted only after verifying that effective options, configuration, and refspecs disable pruning and restrict ref updates to remote-tracking refs, `FETCH_HEAD`, and tags created by default tag auto-following. Updates to local branches or other tag changes require approval. When asked for a commit, propose the commit message first and wait for approval, unless I have already explicitly approved both the exact message and the changes to include. Commit approval covers staging only the reviewed changes and creating the commit with the approved message. It does not authorize staging unrelated changes or pushing.
 
 ## Saved context
 
-Saved context means shared preferences (`~/.dotfiles/agents/memories/preferences.md`) and private notes (`~/.codex/private-memory/`). Rules in this file and current user instructions take precedence over saved context. Treat it as historical: verify current project state before relying on it.
+Saved context means shared preferences (`~/.dotfiles/agents/memories/preferences.md`), private notes (`~/.codex/private-memory/`), and harness-managed memory (for example, Claude Code's `~/.claude-work/projects/*/memory/`). Harness-managed memory is treated as private notes. Rules in this file and current user instructions take precedence over saved context. Treat it as historical: verify current project state before relying on it.
 
 - Read the shared preferences at the start of each session.
-- When working in a project, consult `~/.codex/private-memory/INDEX.md` if present and read only the notes it maps to that project.
-- Private notes may be confidential. Do not copy their content into tracked files, commits, reports, or messages to anyone other than me without my explicit approval.
+- When working in a project, consult `~/.codex/private-memory/INDEX.md` if present. Deliberately read private notes, including harness-managed memory, only when explicitly mapped to the current repository or to repositories relevant to the task within a multi-repo workspace. Harness-managed memory stored for the current project is treated as mapped to the current repository. Until `INDEX.md` states mappings, treat no note under `~/.codex/private-memory/` as mapped. If a stated mapping is unclear, ask before reading. This mapping requirement does not apply to memory automatically supplied by the harness; confidentiality rules still apply to that memory.
+- Private notes may be confidential. Without my explicit approval, do not copy their content into tracked files or commits, or include it in reports or messages addressed to anyone other than me, except for the task-related subagent exchanges permitted under Delegation.
+- Creating, updating, or deleting harness-managed memory requires the same plan and explicit approval as other file changes.
