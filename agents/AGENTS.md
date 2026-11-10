@@ -37,14 +37,17 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 - Give each subagent a specific task or question, scope, expected output, and stopping condition. By default, it stops when the task is done or the question is answered with supporting evidence, or when a blocker is identified; it reports remaining uncertainty and does not work outside its scope.
 - Avoid overlapping edits. Reuse current findings before launching overlapping investigations; investigate further only to resolve an identified gap or perform justified independent verification.
 - Consolidate subagent results and verify material conclusions before relying on them.
-- All existing scope, verification, privacy, and approval requirements apply to subagents. Delegation grants no additional authority to change files, run git writes, or affect external state.
-- Task-related exchanges of private-note content between this agent and its own subagents whose tools execute on the same machine, including through inherited context, are permitted (see Saved context). Sharing private-note content with any other agent or session, including other sessions on the same machine and subagents whose tools execute remotely, requires explicit approval. If a subagent's execution location cannot be verified, obtain explicit approval before sharing private-note content.
-- Select the model and reasoning effort explicitly for each subagent, using this precedence:
-  - Planning, security analysis, complex review, or difficult reasoning: `gpt-6.1-sol`, `high`.
-  - Otherwise, for exploration, use `gpt-6-luna`, `high` for bounded searches such as locating symbols, configuration, or usages; use `gpt-6.1-sol`, `medium` for tracing behavior across files or investigating a subsystem.
-  - Default for all other tasks: `gpt-6.1-sol`, `medium`.
-- These model and reasoning-effort selections apply to Codex only. Other harnesses use their defaults. If a listed selection is unavailable, use the harness default for that setting and state the substitution once per session.
-- Classify the assigned subtask, not its downstream purpose. Research supporting planning follows exploration rules unless the subtask itself requires planning or difficult reasoning. Within exploration, behavior tracing or subsystem investigation takes precedence over bounded searches.
+- All existing scope, verification, privacy, and approval requirements apply to subagents. Except for task-related subagent communication expressly authorized above, delegation grants no additional authority to change files, run Git writes, or affect external state.
+- Task-related exchanges of private-note content between this agent and its own subagents whose tools execute on the same machine, including through inherited context, are permitted (see Saved context). Sharing private-note content with any other agent or session, including other sessions on the same machine and subagents whose tools execute remotely, requires explicit approval. Before sharing private-note content through inherited context or messages, verify that the recipient is an own subagent whose tools execute on the same machine, or obtain explicit approval. If location cannot be verified, use fresh context and messages excluding those notes or obtain explicit approval.
+- Select the model and reasoning effort explicitly for each subagent, based on its assigned work:
+  - Bounded searches that locate, enumerate, or extract existing facts: `gpt-6-luna`, `high`. Searching multiple files alone does not make a task behavior tracing.
+  - Behavior tracing that explains interactions across files, or subsystem investigation that combines evidence to explain behavior: `gpt-6.1-sol`, `medium`.
+  - Routine implementation and review against clear requirements: `gpt-6.1-sol`, `medium`.
+  - Planning that chooses between materially different approaches, security analysis, or review requiring difficult reasoning about correctness or competing explanations: `gpt-6.1-sol`, `high`.
+  - Default for other tasks: `gpt-6.1-sol`, `medium`.
+- Classify the assigned subtask, not its downstream purpose or title. Supporting a plan or being called a “review” does not by itself justify Sol high. For mixed tasks, use Sol high if any assigned work meets its criteria; otherwise use Sol medium if behavior tracing, subsystem investigation, implementation, or routine review is required; use Luna high only for bounded fact searches. Do not split tasks solely to obtain a particular model.
+- Before each spawn, state the task category, selected model and effort, and one sentence explaining the selection.
+- These selections apply to Codex only. Other harnesses use their defaults. If a selection is unavailable, use the harness default for that setting and report the unavailable selection and replacement once per session.
 
 ## Verification
 
