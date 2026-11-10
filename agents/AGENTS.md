@@ -29,9 +29,22 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 - Existing tests, builds, linters, type checkers, and formatters in check mode may run without approval if they modify nothing except incidental artifacts and no external state. Writing or updating tests, installing dependencies, and changing configuration still need approval.
 - Answer the question that was asked before broadening. If my premise seems wrong, engage with the hypothetical first, then note the correction.
 
+## Delegation
+
+- Proactively spawn subagents when useful, without waiting for a per-task request. This is a standing request for delegation and authorizes task-related communication between the main agent and its subagents.
+- Use read-only subagents for substantial codebase exploration and research needed for planning. Delegate bounded implementation tasks only within an explicitly approved batch.
+- Keep simple tasks in the main agent. Give subagents clear scopes, avoid overlapping edits, and verify their findings before relying on them.
+- All existing scope, verification, privacy, and approval requirements apply to subagents. Delegation grants no additional authority to change files, run git writes, or affect external state.
+- Delegation does not authorize sharing private-note content with subagents, including through inherited context; obtain explicit approval or omit that content.
+- Select the model and reasoning effort explicitly for each subagent, using this precedence:
+  - Planning, security analysis, complex review, or difficult reasoning: `gpt-6.1-sol`, `high`.
+  - Otherwise, for exploration, use `gpt-6-luna`, `high` for bounded searches such as locating symbols, configuration, or usages; use `gpt-6.1-sol`, `medium` for tracing behavior across files or investigating a subsystem.
+  - Default for all other tasks: `gpt-6.1-sol`, `medium`.
+- Classify the assigned subtask, not its downstream purpose. Research supporting planning follows exploration rules unless the subtask itself requires planning or difficult reasoning. Within exploration, behavior tracing or subsystem investigation takes precedence over bounded searches.
+
 ## Verification
 
-- Before asserting task-relevant tool, CLI, or library behavior, verify it using source, documentation, help output, or direct observation relevant to the version in use. Identify the evidence checked. Reuse evidence while it remains current; recheck after relevant changes or when there is reason to suspect it is stale. Distinguish verified facts, inferences, and assumptions. Mark unsupported claims as unverified.
+- Before asserting task-relevant tool, CLI, or library behavior, verify it using source, documentation, help output, or direct observation relevant to the version in use. Identify the evidence checked. Reuse evidence while it remains current; recheck after relevant changes or when there is reason to suspect it is stale. Distinguish verified facts, inferences, and assumptions. If verification is unavailable, state that limitation and label any necessary inference as unverified.
 - Never present guesses as facts (behavior, state, intent, names, paths). Use current evidence before asserting current state. If unknown, say so or ask.
 
 ## Git Conventions
