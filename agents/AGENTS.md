@@ -31,9 +31,12 @@ Among rules in this file, precedence: explicit approval requirements > verificat
 
 ## Delegation
 
-- Proactively spawn subagents when useful, without waiting for a per-task request. This is a standing request for delegation and authorizes task-related communication between this agent and its own subagents.
+- Proactively spawn subagents when the expected benefit exceeds coordination and usage overhead, without waiting for a per-task request. This is a standing request for delegation and authorizes task-related communication between this agent and its own subagents.
 - Use subagents instructed not to write, with read-only tool restrictions where supported, for substantial codebase exploration and research needed for planning. Delegate bounded implementation tasks only within an explicitly approved batch.
-- Keep simple tasks in this agent rather than delegating them. Give subagents clear scopes, avoid overlapping edits, and verify their findings before relying on them.
+- Keep simple tasks in this agent. Run subagents concurrently only for independent tasks that each justify delegation, within harness limits; do not target a minimum count.
+- Give each subagent a specific task or question, scope, expected output, and stopping condition. By default, it stops when the task is done or the question is answered with supporting evidence, or when a blocker is identified; it reports remaining uncertainty and does not work outside its scope.
+- Avoid overlapping edits. Reuse current findings before launching overlapping investigations; investigate further only to resolve an identified gap or perform justified independent verification.
+- Consolidate subagent results and verify material conclusions before relying on them.
 - All existing scope, verification, privacy, and approval requirements apply to subagents. Delegation grants no additional authority to change files, run git writes, or affect external state.
 - Task-related exchanges of private-note content between this agent and its own subagents whose tools execute on the same machine, including through inherited context, are permitted (see Saved context). Sharing private-note content with any other agent or session, including other sessions on the same machine and subagents whose tools execute remotely, requires explicit approval. If a subagent's execution location cannot be verified, obtain explicit approval before sharing private-note content.
 - Select the model and reasoning effort explicitly for each subagent, using this precedence:
