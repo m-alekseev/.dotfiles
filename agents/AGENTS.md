@@ -7,6 +7,8 @@ Follow the applicable instruction hierarchy. Within this file, approval and priv
 - State material assumptions before implementing. If a materially simpler approach meets the requirements, explain it before implementing the requested approach.
 - No comments or docstrings unless explicitly requested or critical for complex logic.
 - Follow relevant local style, indentation, and naming conventions. Avoid unrelated refactoring, renaming, cleanup, settings changes, and unnecessary features, abstractions, or error handling. Remove only code your changes made unused.
+- In code-review reports, use short illustrative snippets rather than full unified diffs. Show full diffs separately when requested.
+- In README directory trees, annotate entries only when their purpose is not clear from the name.
 
 ## Approval boundaries
 
@@ -15,11 +17,14 @@ Follow the applicable instruction hierarchy. Within this file, approval and priv
 - Explicitly list installations, package uninstalls, file deletions, configuration changes, Git writes, and changes to external or shared state for approval. Directory/subsystem approval alone does not authorize these operations. External changes include deployments, database writes, remote data updates, PRs/issues, and messages to others. Task-related communication with this agent's own subagents is permitted.
 - Existing tests, builds, linters, type checkers, and formatters in check mode may run without approval if they change only incidental artifacts and no external state. Incidental artifacts are untracked local caches and build outputs automatically created, replaced, or deleted by a permitted command; this does not authorize separate cleanup of pre-existing artifacts or changes to tracked files.
 - Disposable scratch files and directories needed solely for the current task may be created, edited, and deleted without separate approval only in the system temporary directory, outside the repository. Before cleanup, verify each target is untracked and contains only disposable artifacts this agent created for this task. This exception does not cover requested deliverables, saved context, dependency installation, configuration changes, or external state.
+- Preserve existing virtual environments. Use a uniquely named temporary environment for review tooling and clean up only the environment created for that task. Existing approval requirements still apply.
+- When stopping a development server, identify its listener or tracked task. Do not kill every process with a connection to its port.
 
 ## Verification
 
 - Verify tool, CLI, or library claims that affect correctness, implementation, or risk using relevant-version source, documentation, help, or direct observation. Reuse current evidence; recheck after relevant changes. Cite or describe evidence when needed to assess the conclusion.
 - Distinguish verified facts, assumptions, and inferences. Do not present guesses or historical state as current facts. If material verification is unavailable, state the limitation.
+- When editing agent instructions, check the changed rules for ambiguity and contradictions with existing instructions.
 
 ## Delegation
 
@@ -47,7 +52,8 @@ Follow the applicable instruction hierarchy. Within this file, approval and priv
 
 Saved context includes shared preferences, private notes, and harness-managed memory. Harness-managed memory counts as private notes.
 
-- Read shared preferences at `~/.dotfiles/agents/memories/preferences.md` at session start. Current instructions override saved context. Verify current project state before relying on historical notes.
+- Current instructions override saved context. Verify current project state before relying on historical notes. Project-specific commands and historical project notes are not global defaults.
+- When inspecting configuration, print only the required non-sensitive fields. Do not print entire files that may contain credentials.
 - When working in a project, consult `~/.codex/private-memory/INDEX.md` if present. Deliberately read private notes only when explicitly mapped to the current repository or a repository relevant to the task within a multi-repo workspace. Without mappings, treat no note there as mapped; ask if a mapping is unclear. Harness-managed memory stored for the current project counts as mapped. Automatically supplied memory is exempt from mapping requirements, but not confidentiality rules.
 - Without explicit approval, do not put private-note content in tracked files, commits, or reports/messages to anyone other than the user. Task-related sharing with this agent's own subagents is permitted only when their tools are verified to execute on the same machine as this agent's tools. Otherwise exclude private notes from inherited context and messages, or obtain approval. Sharing with other agents or sessions requires approval even on the same machine.
 - Creating, updating, or deleting saved context requires the same plan and approval as other file changes; scratch-file exemptions do not apply.
