@@ -1,3 +1,4 @@
 .env
+/.serena/
 agents/skills/synced/
 claude/mods/*/tsconfig.json
