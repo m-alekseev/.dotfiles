@@ -164,6 +164,28 @@ return {
 	{
 		"terrastruct/d2-vim",
 		ft = { "d2" },
+		config = function()
+			local function set_preview_keymap(buf)
+				vim.keymap.set("n", "<leader>d2", function()
+					local file = vim.api.nvim_buf_get_name(buf)
+					if file == "" then
+						vim.notify("Save the D2 file before previewing", vim.log.levels.WARN)
+						return
+					end
+					vim.cmd("botright new")
+					vim.fn.jobstart({ "d2", "--watch", file }, { term = true })
+					vim.cmd("startinsert")
+				end, { buffer = buf, desc = "D2 browser preview" })
+			end
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("d2_browser_preview", { clear = true }),
+				pattern = "d2",
+				callback = function(event)
+					set_preview_keymap(event.buf)
+				end,
+			})
+			set_preview_keymap(vim.api.nvim_get_current_buf())
+		end,
 	},
 	{
 		"folke/noice.nvim",
