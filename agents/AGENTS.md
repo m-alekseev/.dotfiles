@@ -2,21 +2,19 @@ Within this file, approval and privacy rules take precedence over other preferen
 
 ## Preferences
 
-- Be terse. No greetings or unrequested summaries.
+- No greetings or unrequested summaries.
 - Answer the question asked before broadening. Engage with a hypothetical before correcting its premise.
 - State material assumptions before implementing. If a materially simpler approach meets the requirements, explain it before implementing the requested one.
 - No comments or docstrings unless requested or critical for complex logic.
 - Remove only code your changes made unused.
 - In code reviews, use short illustrative snippets, not full diffs, unless full diffs are requested.
 - Verify tool, CLI, and library claims that affect correctness or risk against the version in use. Reuse current evidence; recheck after relevant changes.
-- When editing agent instructions, check changed rules for ambiguity and contradictions.
 
 ## Approval
 
 Changes require a concrete plan and explicit approval first. Changes include file edits, writing tests, installs and uninstalls, deletions, configuration and environment changes, saved context, Git writes, and external or shared state (deployments, database or remote writes, PRs/issues, messages to others).
 
-- The plan states intended behavior, affected files or directories, and operations. List installs, uninstalls, deletions, configuration changes, Git writes, and external changes explicitly; directory approval alone does not cover them.
-- A task request counts as approval only if it covers these details. Approval covers the whole batch, including files the task needs within the approved scope. Ask again before expanding behavior, scope, or operations.
+- State intended behavior, affected files or directories, and operations in the plan. Explicitly list installs, uninstalls, deletions, configuration changes, Git writes, and external changes; directory approval alone does not cover them. A task request counts as approval only if it covers these details. Approval covers the batch and files needed within its scope; ask again before expanding behavior, scope, or operations.
 
 No approval needed for:
 
@@ -33,15 +31,15 @@ Also:
 
 - Before starting a task, inspect staged, unstaged, and untracked changes. Read-only inspection may continue in a dirty checkout.
 - If pre-existing changes exist, perform work that writes into the checkout in a separate worktree with its own branch. First propose its location, branch, and starting commit and obtain approval for creation. Working in the original checkout instead requires explicit approval acknowledging the identified changes. Preserve those changes.
-- Before each edit, recheck the affected files for changes since the last inspection. Account for writes made by this session and its subagents using their tool history. Changes confirmed by available tool history as writes made by this session or its subagents within the approved scope are expected and do not require renewed approval. Matching the planned fix alone does not establish authorship. If changes remain unexplained after checking available history, or exceed the approved scope, stop writes and ask how to proceed. Do not overwrite, stash, move, discard, or commit changes outside the approved task.
+- Before each edit, recheck affected files. Use this session's and its subagents' tool history to account for changes since the last inspection. Verified in-scope writes by this session or its subagents need no renewed approval; matching the planned fix is not proof of authorship. Stop writes and ask about unexplained or out-of-scope changes. Do not overwrite, stash, move, discard, or commit changes outside the approved task.
 - Otherwise, use the current checkout and branch. Changes made for the approved task do not themselves require isolation. Other branch or worktree creation requires an explicit request or an explicitly invoked skill. Setup approval alone does not authorize implementation edits or other Git writes.
-- Git writes need explicit approval: staging, commit, push, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, checkout/switch. Read-only inspection is fine.
+- Git writes need explicit approval: staging, commit, push, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, and checkout/switch. Propose the exact commit message unless it and the changes are already approved. Commit approval covers staging the reviewed changes and that commit, not pushing. Read-only inspection is fine.
+- Approval to merge a task branch includes removing its task-created worktree and deleting that local branch after a successful merge into the approved destination, provided that destination contains the branch tip, the worktree has no staged, unstaged or untracked changes, its ignored contents contain only disposable artifacts created for this task, and no active session uses the worktree or branch. Inspect ignored contents before removal; preserve existing virtual environments. If any condition cannot be verified, preserve the worktree and branch and report why. Never force worktree removal or branch deletion.
 - Fetch without approval only after verifying effective options, configuration, and refspecs disable pruning and update only remote-tracking refs, `FETCH_HEAD`, and default auto-followed tags.
-- Before committing, propose the exact message unless it and the changes are already approved. Commit approval covers staging the reviewed changes and that commit, not pushing.
 
 ## Delegation
 
-- Delegate proactively when the benefit outweighs coordination and usage cost; keep simple tasks local. Give each subagent a bounded task, scope, expected output, and stopping condition. Avoid overlapping edits and verify material conclusions.
+- Delegate when benefits outweigh coordination and usage cost. Specify each subagent's scope, expected output, and stopping condition; avoid overlapping edits and verify material conclusions.
 - Use read-only subagents for substantial planning research. Delegate implementation only within an approved batch.
 - Codex only: unless the user specifies otherwise, pick model and effort from the last row matching any part of the subagent's own task (not its downstream purpose). Reassess when the work changes. If a setting is unavailable, use the harness default for that setting and report it. Other harnesses use their defaults.
 
