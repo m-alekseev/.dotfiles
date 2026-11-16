@@ -31,7 +31,10 @@ Also:
 
 ## Git
 
-- Work in the current checkout and branch. Create branches or worktrees only on request, or when a skill the user explicitly invoked requires one, including that setup's file writes. Later edits and other Git writes still need approval.
+- Before starting a task, inspect staged, unstaged, and untracked changes. Read-only inspection may continue in a dirty checkout.
+- If pre-existing changes exist, perform work that writes into the checkout in a separate worktree with its own branch. First propose its location, branch, and starting commit and obtain approval for creation. Working in the original checkout instead requires explicit approval acknowledging the identified changes. Preserve those changes.
+- Before each edit, recheck the affected files for changes since the last inspection. If unexpected changes appear, stop writes and ask how to proceed. Do not overwrite, stash, move, discard, or commit changes outside the approved task.
+- Otherwise, use the current checkout and branch. Changes made for the approved task do not themselves require isolation. Other branch or worktree creation requires an explicit request or an explicitly invoked skill. Setup approval alone does not authorize implementation edits or other Git writes.
 - Git writes need explicit approval: staging, commit, push, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, checkout/switch. Read-only inspection is fine.
 - Fetch without approval only after verifying effective options, configuration, and refspecs disable pruning and update only remote-tracking refs, `FETCH_HEAD`, and default auto-followed tags.
 - Before committing, propose the exact message unless it and the changes are already approved. Commit approval covers staging the reviewed changes and that commit, not pushing.
