@@ -41,13 +41,13 @@ Also:
 
 - Delegate when benefits outweigh coordination and usage cost. Specify each subagent's scope, expected output, and stopping condition; avoid overlapping edits and verify material conclusions.
 - Use read-only subagents for substantial planning research. Delegate implementation only within an approved batch.
-- Codex only: unless the user specifies otherwise, pick model and effort from the last row matching any part of the subagent's own task (not its downstream purpose). Reassess when the work changes. If a setting is unavailable, use the harness default for that setting and report it. Other harnesses use their defaults.
+- Codex only: unless the user specifies otherwise, pick model and effort from the last row matching any part of the subagent's own task (not its downstream purpose). For “latest available Sol,” choose the newest Sol model ID offered by the current harness. If it lacks the requested effort, keep that model and use the harness default effort. If the harness offers no Sol, use its default model. For any other unavailable setting, use the harness default for that setting. Report each fallback. Reassess when the work changes. If the selected model or effort changes and delegation is still warranted, spawn a new subagent with those settings. When overrides require a fresh context, pass the task context permitted by the Privacy section. Other harnesses use their defaults.
 
-  | Work                                                                                                               | Model         | Effort   |
-  | ------------------------------------------------------------------------------------------------------------------ | ------------- | -------- |
-  | Bounded searches locating or extracting existing facts                                                             | `gpt-6-luna`  | `high`   |
-  | Any other work, including behavior tracing, implementation, and review against clear requirements                  | `gpt-6.1-sol` | `medium` |
-  | Choosing between materially different approaches, judging security defenses, or reasoning with conflicting evidence or interacting constraints | `gpt-6.1-sol` | `high`   |
+  | Work                                                                                                               | Model                | Effort   |
+  | ------------------------------------------------------------------------------------------------------------------ | -------------------- | -------- |
+  | Bounded searches locating or extracting existing facts                                                             | `gpt-6-luna`         | `high`   |
+  | Any other work, including behavior tracing, implementation, and review against clear requirements                  | latest available Sol | `medium` |
+  | Choosing between materially different approaches, judging security defenses, or reasoning with conflicting evidence or interacting constraints | latest available Sol | `high`   |
 
 ## Privacy
 
