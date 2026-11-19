@@ -39,7 +39,7 @@ Delegate when benefits outweigh coordination and usage costs. Specify scope, exp
 | Assignment | Model | Effort |
 | --- | --- | --- |
 | Choose between materially different approaches, judge security defenses, or reason through conflicting evidence or interacting constraints | Latest Sol | high |
-| Result depends on visual interpretation or graphical interface navigation | Latest Terra | medium |
+| The primary task is interpreting visual information or navigating a graphical interface | Latest Terra | medium |
 | Entirely bounded search or fact extraction with a clear completion criterion | Latest Luna | low |
 | Other work, including behavior tracing, implementation, and review against clear requirements | Latest Sol | medium |
 
