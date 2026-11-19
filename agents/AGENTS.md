@@ -32,17 +32,22 @@ Preserve existing virtual environments. Give each temporary environment a unique
 
 ## Delegation
 
-Delegate when benefits outweigh coordination and usage cost. Give each subagent a scope, expected output, and stopping condition. Avoid overlapping edits and verify material conclusions. Use read-only subagents for substantial planning research. Delegate implementation only within an approved batch.
+Delegate when benefits outweigh coordination and usage costs. Specify scope, expected output, and stopping condition. Keep delegated planning research read-only and implementation within approved batches. Avoid overlapping edits and verify material conclusions.
 
-**Codex only.** Unless the user specifies otherwise, use the last row matching any part of the subagent's own task. Ignore its downstream purpose.
+**Codex only.** Unless the user specifies otherwise, use the **first matching row** for the subagent’s own assignment, regardless of downstream use.
 
-| Work | Model | Effort |
+| Assignment | Model | Effort |
 | --- | --- | --- |
-| Bounded searches locating or extracting existing facts | `gpt-6-luna` | high |
-| Other work, including behavior tracing, implementation, and review against clear requirements | Latest available Sol | medium |
-| Choosing between materially different approaches, judging security defenses, or reasoning with conflicting evidence or interacting constraints | Latest available Sol | high |
+| Choose between materially different approaches, judge security defenses, or reason through conflicting evidence or interacting constraints | Latest Sol | high |
+| Result depends on visual interpretation or graphical interface navigation | `gpt-6.1-terra` | medium |
+| Entirely bounded search or fact extraction with a clear completion criterion | `gpt-6-luna` | low |
+| Other work, including behavior tracing, implementation, and review against clear requirements | Latest Sol | medium |
 
-For latest available Sol, use the newest Sol ID the harness offers, even if it requires the harness default effort. If no Sol is available, use the harness default model. Use the harness default for each other unavailable setting and report every fallback. Reassess when the work changes. Spawn a replacement if model or effort changes and delegation is still warranted. When overrides need fresh context, share only task context permitted by Privacy. Other harnesses use their defaults.
+For Sol, try offered IDs newest first. For a specific ID, try it even if unlisted when the launcher accepts explicit IDs. If the requested effort is unavailable, keep the model and use its default effort. If all applicable models are unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
+
+Reassess model and effort when the assignment changes. If new settings are needed and delegation remains worthwhile, confirm the original agent has stopped the assignment before handoff. Share completed work and remaining scope. Follow Privacy for handoffs and fresh contexts required by overrides.
+
+Other harnesses use their default models and efforts.
 
 ## Privacy
 
