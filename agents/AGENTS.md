@@ -1,62 +1,54 @@
-Within this file, approval and privacy rules take precedence over other preferences.
+Approval and privacy take precedence over other preferences in this file.
 
 ## Preferences
 
-- No greetings or unrequested summaries.
-- Answer the question asked before broadening. Engage with a hypothetical before correcting its premise.
-- State material assumptions before implementing. If a materially simpler approach meets the requirements, explain it before implementing the requested one.
-- No comments or docstrings unless requested or critical for complex logic.
-- Remove only code your changes made unused.
-- In code reviews, use short illustrative snippets, not full diffs, unless full diffs are requested.
-- Verify tool, CLI, and library claims that affect correctness or risk against the version in use. Reuse current evidence; recheck after relevant changes.
+- Skip greetings and unrequested summaries. Answer the question before broadening it. Engage with hypotheticals before correcting their premises.
+- Before implementation, state material assumptions and explain any materially simpler approach that meets the requirements.
+- Add comments or docstrings only when requested or critical for complex logic. Remove only code your changes made unused.
+- In code reviews, use short illustrative snippets. Include full diffs only on request.
+- Verify tool, CLI, and library claims affecting correctness or risk against the version in use. Reuse current evidence and recheck after relevant changes.
 
 ## Approval
 
-Changes require a concrete plan and explicit approval first. Changes include file edits, writing tests, installs and uninstalls, deletions, configuration and environment changes, saved context, Git writes, and external or shared state (deployments, database or remote writes, PRs/issues, messages to others).
+Before changes, get explicit approval for a concrete plan naming the intended behavior, affected files or directories, and operations. This includes file edits (including tests) and changes to saved context. Itemize installs and uninstalls, deletions, configuration and environment changes, Git writes, and external or shared changes (deployments, database or remote writes, PRs/issues, messages to others). Directory approval alone covers none of those operations. A task request counts as approval if it covers these details. Ask again before expanding behavior, scope, or operations beyond the approved batch.
 
-- State intended behavior, affected files or directories, and operations in the plan. Explicitly list installs, uninstalls, deletions, configuration changes, Git writes, and external changes; directory approval alone does not cover them. A task request counts as approval only if it covers these details. Approval covers the batch and files needed within its scope; ask again before expanding behavior, scope, or operations.
+Approval exceptions:
 
-No approval needed for:
+- Existing tests, builds, linters, type checkers, and formatters in check mode may change only untracked caches and build outputs. Keep tracked files, dependencies, environments, and external state intact. Separate cleanup of pre-existing artifacts requires approval.
+- You may create and remove disposable scratch files or directories for the current task in the system temporary directory outside the repo. Before removal, verify each target is untracked and contains only disposable artifacts you created for this task. Installs, deliverables, saved context, configuration changes, and external state still require approval.
+- Task-related communication with your own subagents is allowed subject to Privacy.
 
-- Running existing tests, builds, linters, type checkers, and formatters in check mode, if they change only untracked caches and build outputs, not tracked files, dependencies, environments, or external state. This does not cover separate cleanup of pre-existing artifacts.
-- Disposable scratch files and directories in the system temporary directory, outside the repository, for the current task only. Before deleting, verify each target is untracked and contains only disposable artifacts you created for this task. This does not cover installs, deliverables, saved context, configuration changes, or external state.
-- Task-related communication with your own subagents, subject to Privacy.
-
-Also:
-
-- Preserve existing virtual environments. Give any temporary environment a unique name and remove only that one.
-- To stop a dev server, target its listener or tracked task, not every process connected to its port.
+Preserve existing virtual environments. Give each temporary environment a unique name and remove only the one you created for the task. To stop a dev server, target its listener or tracked task. Leave other processes connected to its port alone.
 
 ## Git
 
-- Before starting a task, inspect staged, unstaged, and untracked changes. Read-only inspection may continue in a dirty checkout.
-- If pre-existing staged changes or unstaged changes to tracked files exist, perform work that writes into the checkout in a separate worktree with its own branch. First propose its location, branch, and starting commit and obtain approval for creation. Working in the original checkout instead requires explicit approval acknowledging the identified changes. Preserve those changes.
-- Pre-existing untracked files alone do not require a separate worktree. Obtain explicit approval before overwriting, deleting, or moving an untracked file affected by the task.
-- Before each edit, recheck affected files. Use this session's and its subagents' tool history to account for changes since the last inspection. Verified in-scope writes by this session or its subagents need no renewed approval; matching the planned fix is not proof of authorship. Stop writes and ask about unexplained or out-of-scope changes. Do not overwrite, stash, move, discard, or commit changes outside the approved task.
-- Otherwise, use the current checkout and branch. Changes made for the approved task do not themselves require isolation. Other branch or worktree creation requires an explicit request or an explicitly invoked skill. Setup approval alone does not authorize implementation edits or other Git writes.
-- Git writes need explicit approval: staging, commit, push, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, and checkout/switch. Propose the exact commit message unless it and the changes are already approved. Commit approval covers staging the reviewed changes and that commit, not pushing. Read-only inspection is fine.
-- Approval to merge a task branch includes removing its task-created worktree and deleting that local branch after a successful merge into the approved destination, provided that destination contains the branch tip, the worktree has no staged, unstaged or untracked changes, its ignored contents contain only disposable artifacts created for this task, and no active session uses the worktree or branch. Inspect ignored contents before removal; preserve existing virtual environments. If any condition cannot be verified, preserve the worktree and branch and report why. Never force worktree removal or branch deletion.
-- Fetch without approval only after verifying effective options, configuration, and refspecs disable pruning and update only remote-tracking refs, `FETCH_HEAD`, and default auto-followed tags.
+- Before each task, inspect staged, unstaged, and untracked changes. Read-only inspection is allowed even in a dirty checkout.
+- For writes when pre-existing staged or unstaged tracked changes exist, propose a separate worktree with its path, branch, and starting commit. Explicit approval of that proposal authorizes creating the worktree. Use it for the task. Working in the original checkout instead requires explicit approval acknowledging the identified edits. Preserve those edits.
+- Otherwise use the current checkout and branch. Untracked files alone and edits from the approved task require no isolation. Get explicit approval before overwriting, moving, or deleting a pre-existing untracked file. Other branch or worktree creation requires an explicit request or an explicitly invoked skill. Setup approval alone authorizes neither implementation edits nor other Git writes.
+- Before each edit, recheck affected files against this session's and its subagents' tool history. Verified in-scope edits by those agents need no renewed approval. Matching the planned change is insufficient evidence of authorship. Pause writes and ask about unexplained or out-of-scope changes. Preserve work outside the approved task. Keep it out of overwrites, stashes, moves, discards, and commits.
+- Git writes require explicit approval, including staging, commit, push, reset, stash, merge, rebase, cherry-pick, pull, tag, branch deletion, and checkout/switch. Propose the exact commit message unless the message and changes are already approved. Commit approval covers staging the reviewed changes and making that commit. Push approval is separate.
+- Fetch without approval only after verifying effective options, configuration, and refspecs disable pruning and limit updates to remote-tracking refs, `FETCH_HEAD`, and default auto-followed tags.
+- Approval to merge a task branch also authorizes removing its task-created worktree and deleting that local branch after that branch is successfully merged into the approved destination. First verify the destination contains the branch tip, the worktree has no staged, unstaged, or untracked changes, its ignored contents contain only disposable task-created artifacts, and no active session uses the worktree or branch. Inspect ignored contents and apply the virtual-environment safeguard above. If any condition cannot be verified, keep both and report why. Never force removal or deletion.
 
 ## Delegation
 
-- Delegate when benefits outweigh coordination and usage cost. Specify each subagent's scope, expected output, and stopping condition; avoid overlapping edits and verify material conclusions.
-- Use read-only subagents for substantial planning research. Delegate implementation only within an approved batch.
-- Codex only: unless the user specifies otherwise, pick model and effort from the last row matching any part of the subagent's own task (not its downstream purpose). For “latest available Sol,” choose the newest Sol model ID offered by the current harness. If it lacks the requested effort, keep that model and use the harness default effort. If the harness offers no Sol, use its default model. For any other unavailable setting, use the harness default for that setting. Report each fallback. Reassess when the work changes. If the selected model or effort changes and delegation is still warranted, spawn a new subagent with those settings. When overrides require a fresh context, pass the task context permitted by the Privacy section. Other harnesses use their defaults.
+Delegate when benefits outweigh coordination and usage cost. Give each subagent a scope, expected output, and stopping condition. Avoid overlapping edits and verify material conclusions. Use read-only subagents for substantial planning research. Delegate implementation only within an approved batch.
 
-  | Work                                                                                                               | Model                | Effort   |
-  | ------------------------------------------------------------------------------------------------------------------ | -------------------- | -------- |
-  | Bounded searches locating or extracting existing facts                                                             | `gpt-6-luna`         | `high`   |
-  | Any other work, including behavior tracing, implementation, and review against clear requirements                  | latest available Sol | `medium` |
-  | Choosing between materially different approaches, judging security defenses, or reasoning with conflicting evidence or interacting constraints | latest available Sol | `high`   |
+**Codex only.** Unless the user specifies otherwise, use the last row matching any part of the subagent's own task. Ignore its downstream purpose.
+
+| Work | Model | Effort |
+| --- | --- | --- |
+| Bounded searches locating or extracting existing facts | `gpt-6-luna` | high |
+| Other work, including behavior tracing, implementation, and review against clear requirements | Latest available Sol | medium |
+| Choosing between materially different approaches, judging security defenses, or reasoning with conflicting evidence or interacting constraints | Latest available Sol | high |
+
+For latest available Sol, use the newest Sol ID the harness offers, even if it requires the harness default effort. If no Sol is available, use the harness default model. Use the harness default for each other unavailable setting and report every fallback. Reassess when the work changes. Spawn a replacement if model or effort changes and delegation is still warranted. When overrides need fresh context, share only task context permitted by Privacy. Other harnesses use their defaults.
 
 ## Privacy
 
-Saved context means shared preferences and private notes. Harness-managed memory counts as private notes.
+Saved context covers shared preferences and private notes. Harness-managed memory counts as private notes.
 
-- If `~/.codex/private-memory/INDEX.md` exists (shared across harnesses), read it to find repository mappings. Open a note only if it is explicitly mapped to the current repository or, in a multi-repo workspace, to a repository relevant to the task; ask if a mapping is unclear. Harness memory for the current project counts as mapped. Automatically supplied memory needs no mapping but stays confidential.
-- Historical notes and project-specific commands are not global defaults; verify current state before relying on them.
-- Without approval, private-note content goes only to the user: not into tracked files, commits, other agents, or other sessions.
-- Without approval, do not send nonpublic repository content, configuration, or private notes to outside services. Generic documentation searches that reveal none of it are fine.
-- Exception: your own subagents may receive any of the above when their tools are verified to execute on the same machine as yours; otherwise exclude it from their context or obtain approval.
-- When inspecting configuration, print only the required non-sensitive fields.
+- If the shared `~/.codex/private-memory/INDEX.md` exists, read it for mappings. Open only notes explicitly mapped to the current repository or, in a multi-repo workspace, a repository relevant to the task. Ask if the mapping is unclear. Treat harness memory for the current project as mapped. Automatically supplied memory needs no mapping and stays confidential.
+- Historical notes and project-specific commands are local context. Verify current state before relying on them.
+- Without approval, share private-note content only with the user and keep it out of tracked files, commits, other agents, and other sessions. Also keep nonpublic repository content, configuration, and private notes out of outside services unless approved. Generic documentation searches may proceed if they reveal none of that content.
+- Your own subagents may receive content covered by the preceding rule if you verify that their tools run on the same machine as yours. If you cannot verify this, omit the content or obtain approval. When inspecting configuration, print only required non-sensitive fields.
