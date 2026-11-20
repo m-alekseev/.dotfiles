@@ -39,7 +39,7 @@ format = "%A %d %b %H:%M"
 enabled = false
 
 [ui.toast]
-delivery = "herdr"
+delivery = "terminal"
 
 [ui.toast.herdr]
 position = "top-right"

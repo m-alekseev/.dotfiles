@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D2 preview</title>
+<style>
+  body { margin: 0; background: white; font: 14px system-ui, sans-serif; }
+  #viewport { height: 100dvh; overflow: clip; cursor: grab; user-select: none; }
+  #viewport.panning { cursor: grabbing; }
+  #canvas { transform-origin: top left; }
+  #canvas > svg { display: block; max-width: 100vw; max-height: 100dvh; height: auto; }
+  [role=status] { position: fixed; inset: 0 0 auto; margin: 0; padding: .65em 1em;
+                  background: #f6f6f6; white-space: pre-wrap; pointer-events: none; }
+  [role=status]:empty { display: none; }
+</style>
+<main id="viewport"><div id="canvas"></div></main>
+<pre role="status">Waiting for D2…</pre>
+<script defer src="preview.js"></script>
+</html>

@@ -1,0 +1,4 @@
+viewer-static.min.js is the unmodified draw.io browser viewer from the local
+sample. Upstream project: https://github.com/jgraph/drawio
+Viewer documentation: https://github.com/jgraph/drawio/wiki/Embedding
+See LICENSE.drawio for the Apache License 2.0.

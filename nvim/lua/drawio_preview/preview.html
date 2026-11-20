@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Draw.io preview</title>
+<style>
+  body { margin: 0; background: white; color: #222; font: 14px system-ui, sans-serif;
+         display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100vh; height: 100dvh; }
+  header { display: flex; gap: 1em; align-items: center;
+           padding: .65em 1em; min-height: 2em; background: #f6f6f6; border-bottom: 1px solid #ddd; }
+  select { max-width: 60vw; }
+  #viewport { min-width: 0; overflow: clip; cursor: grab; user-select: none; }
+  #viewport.panning { cursor: grabbing; }
+  #canvas { transform-origin: top left; }
+</style>
+<header>
+  <select aria-label="Diagram page" hidden></select>
+  <span role="status">Waiting for Neovim…</span>
+</header>
+<main id="viewport">
+  <div id="canvas"><div id="diagram"></div></div>
+</main>
+<script defer src="viewer-static.min.js"></script>
+<script defer src="preview.js"></script>
+</html>

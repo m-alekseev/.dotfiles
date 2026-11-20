@@ -167,14 +167,7 @@ return {
 		config = function()
 			local function set_preview_keymap(buf)
 				vim.keymap.set("n", "<leader>d2", function()
-					local file = vim.api.nvim_buf_get_name(buf)
-					if file == "" then
-						vim.notify("Save the D2 file before previewing", vim.log.levels.WARN)
-						return
-					end
-					vim.cmd("botright new")
-					vim.fn.jobstart({ "d2", "--watch", file }, { term = true })
-					vim.cmd("startinsert")
+					require("d2_preview").open(buf)
 				end, { buffer = buf, desc = "D2 browser preview" })
 			end
 			vim.api.nvim_create_autocmd("FileType", {
