@@ -4,7 +4,7 @@ Approval and privacy take precedence over other preferences in this file.
 
 - Skip greetings and unrequested summaries. Answer the question before broadening it. Engage with hypotheticals before correcting their premises.
 - Before implementation, state material assumptions and explain any materially simpler approach that meets the requirements.
-- Add comments or docstrings only when requested or critical for complex logic. Remove only code your changes made unused.
+- Add comments or docstrings only when requested or critical for complex logic. For incidental cleanup, remove only code your changes made unused.
 - In code reviews, use short illustrative snippets. Include full diffs only on request.
 - Verify tool, CLI, and library claims affecting correctness or risk against the version in use. Reuse current evidence and recheck after relevant changes.
 
@@ -46,7 +46,7 @@ For other work, unless the user specifies otherwise, use the **first matching ro
 | Entirely bounded search or fact extraction with a clear completion criterion | Latest Luna | low |
 | Other work, including behavior tracing and implementation | Latest Sol | medium |
 
-For model families selected from the table, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try each distinct ID once, newest first. If only the requested effort is unavailable, keep the model and use its default effort. If the family is unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
+For model families selected from the table, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try distinct candidate IDs newest first. If a candidate fails, advance to the next ID unless only the requested effort is unavailable. Stop at the first successful launch. If only the requested effort is unavailable, retry that candidate once at its default effort before advancing. If the family is unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
 
 Reassess model and effort when the assignment changes. If new settings are needed and delegation remains worthwhile, confirm the original agent has stopped the assignment before handoff. Share completed work and remaining scope. Follow Privacy for handoffs and fresh contexts required by overrides.
 
