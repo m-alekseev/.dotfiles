@@ -35,16 +35,18 @@ Preserve existing virtual environments. Give each temporary environment a unique
 
 Delegate when benefits outweigh coordination and usage costs. Specify scope, expected output, and stopping condition. Keep delegated planning research read-only and implementation within approved batches. Avoid overlapping edits and verify material conclusions.
 
-**Codex only.** Unless the user specifies otherwise, use the **first matching row** for the subagent’s own assignment, regardless of downstream use.
+**Codex only.** For reviews, including reviews against clear requirements, default to the same model as the main driver and high reasoning effort. Honor any reviewer model or effort the user explicitly requests. Apply the default for each setting the user leaves unspecified. Report any launcher substitution and verify the reviewer meets both the model and effort requirements before relying on its judgment. If a suitable reviewer is unavailable, the main driver may perform the review if it meets both requirements. Otherwise, report that the review is pending.
+
+For other work, unless the user specifies otherwise, use the **first matching row** for the subagent’s own assignment, regardless of downstream use.
 
 | Assignment | Model | Effort |
 | --- | --- | --- |
 | Choose between materially different approaches, judge security defenses, or reason through conflicting evidence or interacting constraints | Latest Sol | high |
 | The primary task is interpreting visual information or navigating a graphical interface | Latest Terra | medium |
 | Entirely bounded search or fact extraction with a clear completion criterion | Latest Luna | low |
-| Other work, including behavior tracing, implementation, and review against clear requirements | Latest Sol | medium |
+| Other work, including behavior tracing and implementation | Latest Sol | medium |
 
-For the selected family, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try each distinct ID once, newest first. If only the requested effort is unavailable, keep the model and use its default effort. If the family is unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
+For model families selected from the table, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try each distinct ID once, newest first. If only the requested effort is unavailable, keep the model and use its default effort. If the family is unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
 
 Reassess model and effort when the assignment changes. If new settings are needed and delegation remains worthwhile, confirm the original agent has stopped the assignment before handoff. Share completed work and remaining scope. Follow Privacy for handoffs and fresh contexts required by overrides.
 
