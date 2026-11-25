@@ -35,18 +35,20 @@ Preserve existing virtual environments. Give each temporary environment a unique
 
 Delegate when benefits outweigh coordination and usage costs. Specify scope, expected output, and stopping condition. Keep delegated planning research read-only and implementation within approved batches. Avoid overlapping edits and verify material conclusions.
 
-**Codex only.** For reviews, default to the same model as the main driver and high reasoning effort. Honor any reviewer model or effort the user explicitly requests. Apply the default for each setting the user leaves unspecified. Report any launcher substitution and verify the reviewer meets both the model and effort requirements before relying on its judgment. If a suitable reviewer is unavailable, the main driver may perform the review if it meets both requirements. Otherwise, report that the review is pending.
-
-For other work, unless the user specifies otherwise, use the **first matching row** for the subagent’s own assignment, regardless of downstream use.
+**Codex only.** Use the **first matching row** for the subagent’s own assignment, regardless of downstream use. Honor any model or effort the user explicitly requests and take each unspecified setting from that row. Report each fallback or launcher substitution.
 
 | Assignment | Model | Effort |
 | --- | --- | --- |
-| Choose between materially different approaches, judge security defenses, or reason through conflicting evidence or interacting constraints | Latest Sol | high |
+| Conduct a review, choose between materially different approaches, judge security defenses, or reason through conflicting evidence or interacting constraints | Same model as primary driver | high |
 | The primary task is interpreting visual information or navigating a graphical interface | Latest Terra | medium |
 | Entirely bounded search or fact extraction with a clear completion criterion | Latest Luna | low |
 | Other work, including behavior tracing and implementation | Latest Sol | medium |
 
-For model families selected from the table, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try distinct candidate IDs newest first. Stop at the first successful launch. If only the requested effort is unavailable, retry that candidate once at its default effort. Advance to the next ID only when the launcher reports that the candidate model is unavailable. For other launch failures, including capacity limits and permission denials, stop trying models and report the blocker. If the family is unavailable, use the harness default model. Report each fallback or launcher-reported substitution.
+For reviews, verify the reviewer meets both the model and effort requirements before relying on its judgment. If a suitable reviewer is unavailable, the primary driver may perform the review if it meets both requirements. Otherwise, report that the review is pending.
+
+For a non-review assignment that inherits the primary driver’s model through the first row, stop and report the blocker if the model or effort is unavailable.
+
+For model families selected from the table, collect the offered IDs. If the launcher accepts explicit IDs, also include `gpt-6.1-terra` for Terra or `gpt-6-luna` for Luna. Try distinct candidate IDs newest first. Stop at the first successful launch. If only the requested effort is unavailable, retry that candidate once at its default effort. Advance to the next ID only when the launcher reports that the candidate model is unavailable. For other launch failures, including capacity limits and permission denials, stop trying models and report the blocker. If the family is unavailable, use the harness default model.
 
 Reassess model and effort when the assignment changes. If new settings are needed and delegation remains worthwhile, confirm the original agent has stopped the assignment before handoff. Share completed work and remaining scope. Follow Privacy for handoffs and fresh contexts required by overrides.
 
